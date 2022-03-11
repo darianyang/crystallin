@@ -11,7 +11,7 @@ for SYS in ${SYSTEMS[@]} ; do
     cd $FF/$SYS
     for VER in $(seq -f "%02g" 0 1 2) ; do
         mkdir v$VER
-        rsync -axhvP dyang@ultron.structbio.pitt.edu:$SOURCE/$SYS/v$VER/$OUT_ROOT/*.dat v$VER/$OUT_ROOT/
+        rsync -axhvP dyang@ultron.structbio.pitt.edu:$SOURCE/$SYS/v$VER/$OUT_ROOT/{*.dat,*.pdb} v$VER/$OUT_ROOT/
         #rsync -axhvP dyang@ultron.structbio.pitt.edu:$SOURCE/$SYS/v$VER/$OUT_ROOT/mmgbsa/*.dat v$VER/$OUT_ROOT/
     done
     cd ../..
