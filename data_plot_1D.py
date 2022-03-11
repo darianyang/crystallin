@@ -141,10 +141,8 @@ def add_patch(ax, recx, recy, facecolor, text, recwidth=0.04, recheight=0.06, re
     ax.text(recx + recheight + recspace, recy + recheight / 2, text, ha='left', va='center',
             transform=ax.transAxes, fontsize=fontsize)
 
-#######################################################################
-################### RMSD w/stdev 1D Data Plots ########################
-#######################################################################
-def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1), savefig=None):
+def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1), 
+                       replicates=(0,3), savefig=None):
     cmap = cm.tab10
     norm = Normalize(vmin=0, vmax=10)
     fig, ax = plt.subplots(ncols=2, sharey=True, gridspec_kw={'width_ratios' : [20, 5]})
@@ -152,7 +150,8 @@ def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1), s
         color = cmap(norm(num))
 
         # all replicates of a res class
-        res = [pre_processing(f"data/{sys}/v{i:02d}/1us/{dataname}", time_units=time_units) for i in range(0, 3)]
+        res = [pre_processing(f"data/{sys}/v{i:02d}/1us/{dataname}", time_units=time_units) 
+               for i in range(replicates[0], replicates[1])]
         avg, stdev = avg_and_stdev(res)
         line_plot(res[0][0], avg, stdev=stdev, ax=ax, ylim=ylim, 
                   color=color, ylabel=ylabel, 
@@ -168,7 +167,7 @@ def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1), s
     plt.show()
 
 # RoG
-#plot_avg_and_stdev("radgyr.dat", (16.5,18), "RoG ($\AA$)")
+#plot_avg_and_stdev("radgyr.dat", (15.5,18.5), "RoG ($\AA$)", replicates=(1,2))
 
-# RMSD
-plot_avg_and_stdev("rmsd_bb.dat", (0,4), "RMSD ($\AA$)", time_units=10**3)
+# Backbone RMSD
+plot_avg_and_stdev("rmsd_bb.dat", (0,7), "Backbone RMSD ($\AA$)", replicates=(1,2))
