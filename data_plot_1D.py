@@ -168,5 +168,7 @@ def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1), s
     plt.show()
 
 # RoG
-plot_avg_and_stdev("radgyr.dat", (16.5,18), "RoG ($\AA$)")
+#plot_avg_and_stdev("radgyr.dat", (16.5,18), "RoG ($\AA$)")
 
+# RMSD
+plot_avg_and_stdev("rmsd_bb.dat", (0,4), "RMSD ($\AA$)", time_units=10**3)
