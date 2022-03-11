@@ -144,7 +144,7 @@ def add_patch(ax, recx, recy, facecolor, text, recwidth=0.04, recheight=0.06, re
 #######################################################################
 ################### RMSD w/stdev 1D Data Plots ########################
 #######################################################################
-def plot_avg_and_stdev():
+def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1), savefig=None):
     cmap = cm.tab10
     norm = Normalize(vmin=0, vmax=10)
     fig, ax = plt.subplots(ncols=2, sharey=True, gridspec_kw={'width_ratios' : [20, 5]})
@@ -152,19 +152,21 @@ def plot_avg_and_stdev():
         color = cmap(norm(num))
 
         # all replicates of a res class
-        res = [pre_processing(f"data/{sys}/v{i:02d}/1us/radgyr.dat", time_units=10**4) for i in range(0, 3)]
+        res = [pre_processing(f"data/{sys}/v{i:02d}/1us/{dataname}", time_units=time_units) for i in range(0, 3)]
         avg, stdev = avg_and_stdev(res)
-        line_plot(res[0][0], avg, stdev=stdev, ax=ax, ylim=(16,18.5), 
-                  color=color, ylabel="RoG ($\AA$)", 
-                  alpha=0.85, dist=(0,6,1))
+        line_plot(res[0][0], avg, stdev=stdev, ax=ax, ylim=ylim, 
+                  color=color, ylabel=ylabel, 
+                  alpha=0.85, dist=dist)
         
         # recx can be controlled as : left margin + spacing
         add_patch(ax[0], 0.02 + 0.265 * num, -0.435, color, f"{sys.upper()}", fontsize=16)
 
-    ax[1].set_xlim(0,5)
+    ax[1].set_xlim(dist[0], dist[1])
     fig.tight_layout()
-    fig.savefig("figures/v00-02_radgyr.png", dpi=300, transparent=True)
-    #plt.show()
-plot_avg_and_stdev()
+    if savefig:
+        fig.savefig(f"figures/{savefig}", dpi=300, transparent=True)
+    plt.show()
 
+# RoG
+plot_avg_and_stdev("radgyr.dat", (16.5,18), "RoG ($\AA$)")
 
