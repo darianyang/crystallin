@@ -240,17 +240,20 @@ def single_plot_test():
 
     # fig, ax = plt.subplots(ncols=2, figsize=(12, 4),
     #                        gridspec_kw={'width_ratios' : [20, 3]})
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(8,4))
     # x says us but using ns for test
-    # TODO: make subplot for legs
     #Per_Res_Plot([ss_data, ss_data], timescale=1000, ax=ax).ss_master(labels=(True, True), legend=True)
-    Per_Res_Plot(ss_data, timescale=1000, ax=ax).ss_master(labels=(True, True), legend=True)
+    #Per_Res_Plot(ss_data, timescale=1000, ax=ax).ss_master(labels=(True, True), legend=True)
     #Per_Res_Plot([rms_data, rms_data], timescale=1000, ax=ax).rmsd_master(legend=False)
+    ss = Per_Res_Plot("data/wt/v00/1us/ss.dat", timescale=10**3, ax=ax)
+    ss.ss_master(legend=True, labels=(True, True))
 
     #ax.set_xticks(np.arange(0,12,2))
+    ax.set_xlim(0, 1)
 
     plt.tight_layout()
-    plt.show()
+    #plt.show()
+    fig.savefig(f"figures/data_plot_2D_single.png", dpi=300, transparent=True)
 
 def multi_crys_plot(type):
     """
@@ -309,6 +312,6 @@ def multi_crys_plot(type):
     #fig.savefig(f"figures/per_res_{type}_V00.png", dpi=300, transparent=True)
 
 if __name__ == "__main__":
-    #single_plot_test()
-    multi_crys_plot("dssp")
+    single_plot_test()
+    #multi_crys_plot("dssp")
     #multi_crys_plot("rmsd")
