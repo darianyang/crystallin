@@ -120,6 +120,22 @@ class Per_Res_Plot:
         # z is the data array without the frame column
         self.z = data[split_index:,:]
 
+    def calc_fraction_nc(self):
+        """
+        Take the Z array and find the fraction of native contacts for each frame.
+        Z should be the contact number of each resdidue (y) at each timepoint (x).
+        """
+        pass
+
+    def nc_master(self):
+        """
+        Plot fraction of native contacts per residue.
+        """
+        ax = self.ax
+        
+        self.process_per_res_data()
+        ax.pcolormesh(self.x, self.y_num, self.z, shading="auto")
+
     def ss_cmap(self):
         """
         Custom cmap for the DSSP data.
@@ -235,8 +251,6 @@ class Per_Res_Plot:
 
 
 def single_plot_test():
-    ss_data = "ipq/ired_test/NO_ION/ss_10ns.dat"
-    rms_data = "ipq/ired_test/NO_ION/rmsd_per_res_bb_10ns.dat"
 
     # fig, ax = plt.subplots(ncols=2, figsize=(12, 4),
     #                        gridspec_kw={'width_ratios' : [20, 3]})
@@ -245,15 +259,18 @@ def single_plot_test():
     #Per_Res_Plot([ss_data, ss_data], timescale=1000, ax=ax).ss_master(labels=(True, True), legend=True)
     #Per_Res_Plot(ss_data, timescale=1000, ax=ax).ss_master(labels=(True, True), legend=True)
     #Per_Res_Plot([rms_data, rms_data], timescale=1000, ax=ax).rmsd_master(legend=False)
-    ss = Per_Res_Plot("data/wt/v00/1us/ss.dat", timescale=10**3, ax=ax)
-    ss.ss_master(legend=True, labels=(True, True))
+    # ss = Per_Res_Plot("data/wt/v00/1us/ss.dat", timescale=10**3, ax=ax)
+    # ss.ss_master(legend=True, labels=(True, True))
+
+    nc = Per_Res_Plot("data/wt/v00/1us/nc_res_timeseries.dat", timescale=10**3, ax=ax)
+    nc.nc_master()
 
     #ax.set_xticks(np.arange(0,12,2))
-    ax.set_xlim(0, 1)
+    #ax.set_xlim(0, 1)
 
     plt.tight_layout()
-    #plt.show()
-    fig.savefig(f"figures/data_plot_2D_single.png", dpi=300, transparent=True)
+    plt.show()
+    #fig.savefig(f"figures/data_plot_2D_single.png", dpi=300, transparent=True)
 
 def multi_crys_plot(type):
     """

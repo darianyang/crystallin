@@ -2,6 +2,7 @@
 Plot simple 1D timeseries data and KDE.
 """
 
+from contextlib import redirect_stderr
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
@@ -38,12 +39,15 @@ def pre_processing(file=None, data=None, time_units=10**6, index=1):
     time = np.divide(data[:,0], time_units)
     return np.vstack([time, data[:,index]])
 
-def avg_and_stdev(data_list):
+def avg_and_stdev(data_list, contacts=False):
     """
     Returns the average and stdev of multiple timeseries datasets.
     """
-    # only the y values, x axis is time.
-    data = [i[1] for i in data_list]
+    # only the y values, x axis is time
+    if contacts is True:
+        data = [np.divide(i[1], i[1,0]) for i in data_list]
+    else:
+        data = [i[1] for i in data_list]
     return np.average(data, axis=0), np.std(data, axis=0)
 
 
@@ -74,7 +78,7 @@ def line_plot(time, data, ylim=(0,5), ax=None, stdev=None, alpha=0.8,
     if ax is None:
         fig, ax = plt.subplots(ncols=2, sharey=True, gridspec_kw={'width_ratios' : [20, 5]})
     else:
-        fig = plt.gca()
+        fig = plt.gcf()
 
     # line plot
     ax[0].plot(time, data, linewidth=1, alpha=alpha, label=label, color=color)
@@ -142,7 +146,7 @@ def add_patch(ax, recx, recy, facecolor, text, recwidth=0.04, recheight=0.06, re
             transform=ax.transAxes, fontsize=fontsize)
 
 def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1), 
-                       replicates=(0,3), savefig=None):
+                       replicates=(0,3), savefig=None, contacts=False):
     cmap = cm.tab10
     norm = Normalize(vmin=0, vmax=10)
     fig, ax = plt.subplots(ncols=2, sharey=True, gridspec_kw={'width_ratios' : [20, 5]})
@@ -152,7 +156,11 @@ def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1),
         # all replicates of a res class
         res = [pre_processing(f"data/{sys}/v{i:02d}/1us/{dataname}", time_units=time_units) 
                for i in range(replicates[0], replicates[1])]
-        avg, stdev = avg_and_stdev(res)
+        # fix for fraction contacts
+        if contacts is True:
+            avg, stdev = avg_and_stdev(res, contacts=contacts)
+        else:
+            avg, stdev = avg_and_stdev(res)
         line_plot(res[0][0], avg, stdev=stdev, ax=ax, ylim=ylim, 
                   color=color, ylabel=ylabel, 
                   alpha=0.85, dist=dist)
@@ -171,3 +179,9 @@ def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1),
 
 # Backbone RMSD
 plot_avg_and_stdev("rmsd_bb.dat", (0,7), "Backbone RMSD ($\AA$)", replicates=(1,2))
+
+# nc and nnc (TODO: index)
+plot_avg_and_stdev("nc_number.dat", (0.7,1.1), "Fraction of Contacts", replicates=(1,2), contacts=True)
+#res = pre_processing(f"data/wt/v00/1us/nc_number.dat", time_units=10**3)
+#line_plot(res[0,:], np.divide(res[1,:],res[1,0]), ylim=(0.8,1.1), alpha=0.85)
+#plt.show()
