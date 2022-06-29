@@ -2,7 +2,6 @@
 Plot simple 1D timeseries data and KDE.
 """
 
-from contextlib import redirect_stderr
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
@@ -50,8 +49,13 @@ def avg_and_stdev(data_list, contacts=False):
         data = [i[1] for i in data_list]
     return np.average(data, axis=0), np.std(data, axis=0)
 
+def movingaverage(data, windowsize):
+    """
+    Returns the window averaged 1D dataset.
+    """
+    return np.convolve(data, np.ones(windowsize, dtype=float) / windowsize, mode='same')
 
-def line_plot(time, data, ylim=(0,5), ax=None, stdev=None, alpha=0.8,
+def line_plot(time, data, ylim=(0,5), ax=None, stdev=None, alpha=0.8, window=1,
               label=None, leg_cols=5, color=None, ylabel=None, dist=(0,1.1,0.2)):
     """
     Parameters
@@ -79,6 +83,13 @@ def line_plot(time, data, ylim=(0,5), ax=None, stdev=None, alpha=0.8,
         fig, ax = plt.subplots(ncols=2, sharey=True, gridspec_kw={'width_ratios' : [20, 5]})
     else:
         fig = plt.gcf()
+
+    if window != 1:
+        time = time[window:-window:window]
+        data = movingaverage(data, window)[window:-window:window]
+        #print(data[window:-window])
+        if stdev is not None:
+            stdev = stdev[window:-window:window]
 
     # line plot
     ax[0].plot(time, data, linewidth=1, alpha=alpha, label=label, color=color)
@@ -150,7 +161,8 @@ def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1),
     cmap = cm.tab10
     norm = Normalize(vmin=0, vmax=10)
     fig, ax = plt.subplots(ncols=2, sharey=True, gridspec_kw={'width_ratios' : [20, 5]})
-    for num, sys in enumerate(["wt", "n33d", "b3d", "nalld"]):
+    #for num, sys in enumerate(["wt", "n33d", "b3d", "nalld"]):
+    for num, sys in enumerate(["wt", "nalld"]):
         color = cmap(norm(num))
 
         # all replicates of a res class
@@ -174,14 +186,40 @@ def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1),
         fig.savefig(f"figures/{savefig}", dpi=300, transparent=True)
     plt.show()
 
+def plot_multiple_reps(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1), 
+                       replicates=(0,3), savefig=None, contacts=False, window=1):
+    cmap = cm.tab10
+    norm = Normalize(vmin=0, vmax=10)
+    fig, ax = plt.subplots(ncols=2, sharey=True, gridspec_kw={'width_ratios' : [20, 5]})
+    #for num, sys in enumerate(["wt", "n33d", "b3d", "nalld"]):
+    for num, sys in enumerate(["wt", "nalld"]):
+        color = cmap(norm(num))
+        for rep in range(replicates[0], replicates[1]):
+            # all replicates of a res class
+            data = pre_processing(f"data/{sys}/v{rep:02d}/1us/{dataname}", time_units=time_units) 
+            line_plot(data[0], data[1], ax=ax, ylim=ylim, 
+                      color=color, ylabel=ylabel, window=window,
+                      alpha=0.85, dist=dist)
+        
+        # recx can be controlled as : left margin + spacing
+        add_patch(ax[0], 0.02 + 0.265 * num, -0.435, color, f"{sys.upper()}", fontsize=16)
+
+    ax[1].set_xlim(dist[0], dist[1])
+    fig.tight_layout()
+    if savefig:
+        fig.savefig(f"figures/{savefig}", dpi=300, transparent=True)
+    plt.show()
+
 # RoG
 #plot_avg_and_stdev("radgyr.dat", (15.5,18.5), "RoG ($\AA$)", replicates=(1,2))
 
 # Backbone RMSD
-plot_avg_and_stdev("rmsd_bb.dat", (0,7), "Backbone RMSD ($\AA$)", replicates=(1,2))
+#plot_avg_and_stdev("rmsd_bb.dat", (0,7), "Backbone RMSD ($\AA$)", replicates=(4,5))
+plot_multiple_reps("rmsd_bb.dat", (0,7), "Backbone RMSD ($\AA$)", replicates=(0,5), 
+                    window=10, time_units=10**3)
 
 # nc and nnc (TODO: index)
-plot_avg_and_stdev("nc_number.dat", (0.7,1.1), "Fraction of Contacts", replicates=(1,2), contacts=True)
+#plot_avg_and_stdev("nc_number.dat", (0.7,1.1), "Fraction of Contacts", replicates=(1,2), contacts=True)
 #res = pre_processing(f"data/wt/v00/1us/nc_number.dat", time_units=10**3)
 #line_plot(res[0,:], np.divide(res[1,:],res[1,0]), ylim=(0.8,1.1), alpha=0.85)
 #plt.show()
