@@ -56,7 +56,7 @@ def movingaverage(data, windowsize):
     return np.convolve(data, np.ones(windowsize, dtype=float) / windowsize, mode='same')
 
 def line_plot(time, data, ylim=(0,5), ax=None, stdev=None, alpha=0.8, window=1,
-              label=None, leg_cols=5, color=None, ylabel=None, dist=(0,1.1,0.2)):
+              label=None, leg_cols=5, color=None, ylabel=None, dist=(0,1.1,0.2), linewidth=1):
     """
     Parameters
     ----------
@@ -92,7 +92,7 @@ def line_plot(time, data, ylim=(0,5), ax=None, stdev=None, alpha=0.8, window=1,
             stdev = stdev[window:-window:window]
 
     # line plot
-    ax[0].plot(time, data, linewidth=1, alpha=alpha, label=label, color=color)
+    ax[0].plot(time, data, linewidth=linewidth, alpha=alpha, label=label, color=color)
     #ax[0].axvline(2, color="k", lw=2, ls="--")
     ax[0].set_xlabel("Time ($\mu$s)", labelpad=12, fontweight="bold")
     #ax[0].set_ylabel(r"RMSD ($\AA$)", labelpad=10, fontweight="bold")
@@ -157,7 +157,7 @@ def add_patch(ax, recx, recy, facecolor, text, recwidth=0.04, recheight=0.06, re
             transform=ax.transAxes, fontsize=fontsize)
 
 def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1), 
-                       replicates=(0,3), savefig=None, contacts=False):
+                       replicates=(0,3), savefig=None, contacts=False, linewidth=1):
     cmap = cm.tab10
     norm = Normalize(vmin=0, vmax=10)
     fig, ax = plt.subplots(ncols=2, sharey=True, gridspec_kw={'width_ratios' : [20, 5]})
@@ -174,7 +174,7 @@ def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1),
         else:
             avg, stdev = avg_and_stdev(res)
         line_plot(res[0][0], avg, stdev=stdev, ax=ax, ylim=ylim, 
-                  color=color, ylabel=ylabel, 
+                  color=color, ylabel=ylabel, linewidth=linewidth,
                   alpha=0.85, dist=dist)
         
         # recx can be controlled as : left margin + spacing
@@ -187,36 +187,38 @@ def plot_avg_and_stdev(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1),
     plt.show()
 
 def plot_multiple_reps(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1), 
-                       replicates=(0,3), savefig=None, contacts=False, window=1):
+                       replicates=(0,3), savefig=None, contacts=False, window=1, linewidth=1):
     cmap = cm.tab10
     norm = Normalize(vmin=0, vmax=10)
     fig, ax = plt.subplots(ncols=2, sharey=True, gridspec_kw={'width_ratios' : [20, 5]})
     #for num, sys in enumerate(["wt", "n33d", "b3d", "nalld"]):
+    labels = ["WT $\gamma$D-Crystallin", "ASN-less $\gamma$D-Crystallin"]
     for num, sys in enumerate(["wt", "nalld"]):
         color = cmap(norm(num))
         for rep in range(replicates[0], replicates[1]):
             # all replicates of a res class
             data = pre_processing(f"data/{sys}/v{rep:02d}/1us/{dataname}", time_units=time_units) 
-            line_plot(data[0], data[1], ax=ax, ylim=ylim, 
+            line_plot(data[0], data[1], ax=ax, ylim=ylim,
                       color=color, ylabel=ylabel, window=window,
-                      alpha=0.85, dist=dist)
+                      alpha=0.85, dist=dist, linewidth=linewidth)
         
         # recx can be controlled as : left margin + spacing
-        add_patch(ax[0], 0.02 + 0.265 * num, -0.435, color, f"{sys.upper()}", fontsize=16)
+        #add_patch(ax[0], 0.02 + 0.265 * num, -0.435, color, f"{sys.upper()}", fontsize=16)
+        add_patch(ax[0], 0.152 + 0.365 * num, -0.435, color, labels[num], fontsize=16)
 
     ax[1].set_xlim(dist[0], dist[1])
     fig.tight_layout()
     if savefig:
-        fig.savefig(f"figures/{savefig}", dpi=300, transparent=True)
+        fig.savefig(f"figures/{savefig}", dpi=300, transparent=False)
     plt.show()
 
 # RoG
 #plot_avg_and_stdev("radgyr.dat", (15.5,18.5), "RoG ($\AA$)", replicates=(1,2))
 
 # Backbone RMSD
-#plot_avg_and_stdev("rmsd_bb.dat", (0,7), "Backbone RMSD ($\AA$)", replicates=(4,5))
-plot_multiple_reps("rmsd_bb.dat", (0,7), "Backbone RMSD ($\AA$)", replicates=(0,5), 
-                    window=10, time_units=10**3)
+#plot_avg_and_stdev("rmsd_bb.dat", (0,7), "Backbone RMSD ($\AA$)", replicates=(0,5), time_units=10**3)
+plot_multiple_reps("rmsd_bb.dat", (0,6), "Backbone RMSD ($\AA$)", replicates=(0,5), 
+                    window=10, time_units=10**3, linewidth=2, savefig="5reps_wt_vs_nalld.png")
 
 # nc and nnc (TODO: index)
 #plot_avg_and_stdev("nc_number.dat", (0.7,1.1), "Fraction of Contacts", replicates=(1,2), contacts=True)
