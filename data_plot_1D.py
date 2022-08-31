@@ -217,11 +217,24 @@ def plot_multiple_reps(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1),
 
 # Backbone RMSD
 #plot_avg_and_stdev("rmsd_bb.dat", (0,7), "Backbone RMSD ($\AA$)", replicates=(0,5), time_units=10**3)
-plot_multiple_reps("rmsd_bb.dat", (0,6), "Backbone RMSD ($\AA$)", replicates=(0,5), 
-                    window=10, time_units=10**3, linewidth=2, savefig="5reps_wt_vs_nalld.png")
+# plot_multiple_reps("rmsd_bb.dat", (0,6), "Backbone RMSD ($\AA$)", replicates=(0,5), 
+#                     window=10, time_units=10**3, linewidth=2, savefig="5reps_wt_vs_nalld.png")
 
 # nc and nnc (TODO: index)
 #plot_avg_and_stdev("nc_number.dat", (0.7,1.1), "Fraction of Contacts", replicates=(1,2), contacts=True)
 #res = pre_processing(f"data/wt/v00/1us/nc_number.dat", time_units=10**3)
 #line_plot(res[0,:], np.divide(res[1,:],res[1,0]), ylim=(0.8,1.1), alpha=0.85)
 #plt.show()
+
+# angle and dist of domains
+plot_multiple_reps("domain_angle.dat", (60,90), "Domain Angle (°)", replicates=(0,5), 
+                    window=10, time_units=10**3, linewidth=2)
+
+plot_multiple_reps("domain_distance.dat", (24,30), "Domain Distance ($\AA$)", replicates=(0,5), 
+                    window=10, time_units=10**3, linewidth=2)
+
+# ntd an ctd rmsd
+plot_multiple_reps("rmsd_bb_ntd.dat", (0,20), "NTD RMSD ($\AA$)", replicates=(0,5), 
+                    window=10, time_units=10**3, linewidth=2)
+plot_multiple_reps("rmsd_bb_ctd.dat", (0,20), "CTD RMSD ($\AA$)", replicates=(0,5), 
+                    window=10, time_units=10**3, linewidth=2)
