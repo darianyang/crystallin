@@ -1,4 +1,5 @@
 __pycache__
+.vscode
 .DS_Store
 std_sim_setup/
 *.swp
