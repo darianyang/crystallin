@@ -249,6 +249,64 @@ class Per_Res_Plot:
         #cbar.add_lines(range(0,vmax + 1), "k", linewidths=1)
         cbar.set_label("RMSD ($\AA$)", fontweight="bold", labelpad=16)
 
+    def dihedral_legend(self, cbl): 
+        """
+        Add dihedral cbar to its own axes object.
+        Parameters
+        ----------
+        cbl : str
+            Colorbar label. Can be 'phi' or 'psi'.
+        """
+        ax = self.ax # TODO: need to make this dynamic for ac inputs 
+        
+        cax, cbar_kwds = mpl.colorbar.make_axes(ax, location="right",
+                              fraction=0.65, shrink=1.2, aspect=10, anchor=(0, 1.6))
+        #cax = self.fig.add_axes([0.95, 0.1, 0.025, 0.4])
+
+        cmap = cm.hsv
+        norm = Normalize(vmin=-180, vmax=180)
+        
+        cbar = mpl.colorbar.ColorbarBase(cax, cmap=cmap, 
+                                         norm=norm,
+                                         orientation="vertical")
+        #cbar.add_lines(range(0,vmax + 1), "k", linewidths=1)
+        cbar.set_label(f"$\{cbl}$", fontweight="bold", labelpad=10, 
+                       ha="center", va="center", rotation=0)
+        cbar.set_ticks(np.arange(-180,270,90))
+
+    def dihedral_master(self, legend=False, labels=(False, False), cbl=None):
+        """
+        Main public method for plotting per residue dihedral data.
+        Parameters
+        ----------
+        legend : bool
+            Optionally plot the cbar.
+        labels : tuple of bool
+            Tuple of 2 boolean values for x and y labels respectively.
+        cbl : str
+            Colorbar label. Can be 'phi' or 'psi'.
+        """
+        ax = self.ax
+        
+        self.process_per_res_data()
+        self.plot = ax.pcolormesh(self.x, self.y_num, self.z, cmap="hsv", 
+                             shading="auto", vmin=-180, vmax=180)
+        if type(self.file) == list:
+            ax.xaxis.grid(color="k", linewidth=2.5)
+            ax.yaxis.grid(color="k", linewidth=1)
+        else:
+            ax.grid(color="k", linewidth=1)
+
+        if labels[0]:
+            ax.set_xlabel("Time (µs)", fontweight="bold", labelpad=10) 
+        if labels[1]:
+            ax.set_ylabel("Residue", fontweight="bold", labelpad=12)
+
+        if legend:
+            cbar = plt.colorbar(self.plot)
+            cbar.set_label(f"$\{cbl}$", weight="bold", labelpad=16.5, fontsize=17.5, 
+                           rotation=0, ha="center", va="center")
+
 
 def single_plot_test():
 
@@ -258,12 +316,22 @@ def single_plot_test():
     # x says us but using ns for test
     #Per_Res_Plot([ss_data, ss_data], timescale=1000, ax=ax).ss_master(labels=(True, True), legend=True)
     #Per_Res_Plot(ss_data, timescale=1000, ax=ax).ss_master(labels=(True, True), legend=True)
-    #Per_Res_Plot([rms_data, rms_data], timescale=1000, ax=ax).rmsd_master(legend=False)
-    # ss = Per_Res_Plot("data/wt/v00/1us/ss.dat", timescale=10**3, ax=ax)
-    # ss.ss_master(legend=True, labels=(True, True))
+    # TODO: rmsd plot not working
+    #Per_Res_Plot("data/wt/v00/1us/rmsd_bb.dat", timescale=1000, ax=ax).rmsd_master(legend=True)
+    #ss = Per_Res_Plot("data/wt/v00/1us/ss.dat", timescale=10**3, ax=ax)
+    #ss.ss_master(legend=True, labels=(True, True))
 
-    nc = Per_Res_Plot("data/wt/v00/1us/nc_res_timeseries.dat", timescale=10**3, ax=ax)
-    nc.nc_master()
+    #nc = Per_Res_Plot("data/wt/v00/1us/nc_res_timeseries.dat", timescale=10**3, ax=ax)
+    #nc.nc_master()
+
+    # dihedral plot
+    dh = Per_Res_Plot("data/wt/v02/1us/dihedrals_psi.dat", timescale=10**2, ax=ax, data_interval=10)
+    dh.dihedral_master()
+    #dh.dihedral_legend("phi")
+
+    # TODO: maybe I can look at differences in last and first frame per residue and plot
+    # or average of last 100 vs first 100 frames
+    # or average the 1000 frames to every 100 or 10 frames
 
     #ax.set_xticks(np.arange(0,12,2))
     #ax.set_xlim(0, 1)

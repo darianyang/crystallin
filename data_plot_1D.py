@@ -217,8 +217,8 @@ def plot_multiple_reps(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1),
 
 # Backbone RMSD
 #plot_avg_and_stdev("rmsd_bb.dat", (0,7), "Backbone RMSD ($\AA$)", replicates=(0,5), time_units=10**3)
-plot_multiple_reps("rmsd_bb.dat", (0,6), "Backbone RMSD ($\AA$)", replicates=(2,3), 
-                    window=10, time_units=10**3, linewidth=2)
+# plot_multiple_reps("rmsd_bb.dat", (0,6), "Backbone RMSD ($\AA$)", replicates=(2,3), 
+#                     window=10, time_units=10**3, linewidth=2)
 
 # nc and nnc (TODO: index)
 #plot_avg_and_stdev("nc_number.dat", (0.7,1.1), "Fraction of Contacts", replicates=(1,2), contacts=True)
@@ -238,3 +238,7 @@ plot_multiple_reps("rmsd_bb.dat", (0,6), "Backbone RMSD ($\AA$)", replicates=(2,
 #                     window=10, time_units=10**3, linewidth=2)
 # plot_multiple_reps("rmsd_bb_ctd.dat", (0,20), "CTD RMSD ($\AA$)", replicates=(0,5), 
 #                     window=10, time_units=10**3, linewidth=2)
+
+# plot orientation angleq
+plot_multiple_reps("o_angle.dat", (0,40), "Orientation Angle (°)", replicates=(0,1), 
+                    window=10, time_units=10**3, linewidth=2, dist=(0,1,0.2))
