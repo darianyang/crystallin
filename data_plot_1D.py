@@ -13,20 +13,23 @@ import matplotlib.gridspec as gridspec
 import scipy.stats
 
 import pandas as pd
+from sqlalchemy import column
 
-plt.rcParams['figure.figsize']= (10,6)
-plt.rcParams.update({'font.size': 18})
-plt.rcParams["font.family"]="Sans-serif"
-plt.rcParams['font.sans-serif'] = 'Arial'
-plt.rcParams['mathtext.default'] = 'regular'
-plt.rcParams['axes.linewidth'] = 3.15
-plt.rcParams['xtick.major.size'] = 9.5
-plt.rcParams['xtick.major.width'] = 3
-plt.rcParams['xtick.minor.size'] = 6
-plt.rcParams['xtick.minor.width'] = 3
-plt.rcParams['ytick.major.size'] = 6
-plt.rcParams['ytick.major.width'] = 2.5
-plt.rcParams['axes.labelsize'] = 20
+# plt.rcParams['figure.figsize']= (10,6)
+# plt.rcParams.update({'font.size': 18})
+# plt.rcParams["font.family"]="Sans-serif"
+# plt.rcParams['font.sans-serif'] = 'Arial'
+# plt.rcParams['mathtext.default'] = 'regular'
+# plt.rcParams['axes.linewidth'] = 3.15
+# plt.rcParams['xtick.major.size'] = 9.5
+# plt.rcParams['xtick.major.width'] = 3
+# plt.rcParams['xtick.minor.size'] = 6
+# plt.rcParams['xtick.minor.width'] = 3
+# plt.rcParams['ytick.major.size'] = 6
+# plt.rcParams['ytick.major.width'] = 2.5
+# plt.rcParams['axes.labelsize'] = 20
+
+plt.style.use("~/github/wedap/wedap/styles/default.mplstyle")
 
 def pre_processing(file=None, data=None, time_units=10**6, index=1):
     """
@@ -122,7 +125,7 @@ def line_plot(time, data, ylim=(0,5), ax=None, stdev=None, alpha=0.8, window=1,
     #fig.tight_layout()
     #fig.savefig("figures/test.png", dpi=300, transparent=False)
 
-def dist_plot(data, ylim=(0,5), ax=None, color=None, linewidth=3):
+def dist_plot(data, xlim=(0,5), ax=None, color=None, linewidth=3):
     """
     Plot just the distribution of R1 or R2 values.
     """
@@ -131,13 +134,13 @@ def dist_plot(data, ylim=(0,5), ax=None, color=None, linewidth=3):
     else:
         fig = plt.gca()
     # secondary kde distribution plot
-    grid = np.arange(ylim[0], ylim[1], .01, dtype=float)
+    grid = np.arange(xlim[0], xlim[1], .01, dtype=float)
     density = scipy.stats.gaussian_kde(data)(grid)
     ax.plot(grid, density, color=color, linewidth=linewidth)
     # TODO: maybe normalize density to 1 and then set xticks np.arange(0, 1, 0.2)
     #ax.set_xticks(np.arange(0, 1.2, 0.2))
     #ax.set_xticks(np.arange(0, np.max(density) + 0.5, 0.5))
-    ax.set_xlabel("Relaxation ($s^{-1}$)", labelpad=18, fontweight="bold")
+    #ax.set_xlabel("Relaxation ($s^{-1}$)", labelpad=18, fontweight="bold")
 
     # Remove the non-bottom spines
     for kw in ("left", "right", "top"):
@@ -212,12 +215,50 @@ def plot_multiple_reps(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1),
         fig.savefig(f"figures/{savefig}", dpi=300, transparent=False)
     plt.show()
 
+def multi_rep_data(sys="wt", dataname="o_angle.dat", replicates=(0,10)):
+    data = [pre_processing(f"data/{sys}/v{i:02d}/1us/{dataname}")[1] 
+               for i in range(replicates[0],replicates[1])]
+    data = np.reshape(data, -1)
+    return data
+
+# data and axis for dist and joint plots
+# fig, ax = plt.subplots()
+# wt = multi_rep_data("wt")
+# nless = multi_rep_data("nalld")
+
+# # dist plot
+# xlim = (0,35)
+# dist_plot(wt, xlim, ax=ax)
+# dist_plot(nless, xlim, ax=ax)
+
+# joint plot
+import seaborn as sns
+import pandas as pd
+wt1 = multi_rep_data("wt", "rmsd_bb.dat")
+wt2 = multi_rep_data("wt", "o_angle.dat")
+nless1 = multi_rep_data("nalld", "rmsd_bb.dat")
+nless2 = multi_rep_data("nalld", "o_angle.dat")
+wt_df = pd.DataFrame(np.vstack((wt1, wt2)))
+nless_df = pd.DataFrame(np.vstack((nless1, nless2)))
+full_df = pd.concat([wt_df, nless_df], axis=1, ignore_index=True)
+#print(np.shape(wt_df))
+full_df = full_df.T
+full_df["Legend"] = ["wt" for i in range(0, np.shape(wt_df)[1])] + \
+                   ["nless" for i in range(0, np.shape(nless_df)[1])]
+#print(full_df)
+g = sns.JointGrid(x=0, y=1, data=full_df, hue="Legend")
+g.plot_joint(sns.kdeplot)
+g.plot_marginals(sns.kdeplot, fill=False)
+g.set_axis_labels(xlabel="Backbone RMSD ($\AA$)", ylabel="Orientation Angle (°)")
+sns.move_legend(g, "upper left", bbox_to_anchor=(.55, .45), title="")
+#plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+
 # RoG
 #plot_avg_and_stdev("radgyr.dat", (15.5,18.5), "RoG ($\AA$)", replicates=(1,2))
 
 # Backbone RMSD
 #plot_avg_and_stdev("rmsd_bb.dat", (0,7), "Backbone RMSD ($\AA$)", replicates=(0,5), time_units=10**3)
-# plot_multiple_reps("rmsd_bb.dat", (0,6), "Backbone RMSD ($\AA$)", replicates=(2,3), 
+# plot_multiple_reps("rmsd_bb.dat", (0,6), "Backbone RMSD ($\AA$)", replicates=(9,10), 
 #                     window=10, time_units=10**3, linewidth=2)
 
 # nc and nnc (TODO: index)
@@ -240,5 +281,7 @@ def plot_multiple_reps(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1),
 #                     window=10, time_units=10**3, linewidth=2)
 
 # plot orientation angleq
-plot_multiple_reps("o_angle.dat", (0,40), "Orientation Angle (°)", replicates=(0,1), 
-                    window=10, time_units=10**3, linewidth=2, dist=(0,1,0.2))
+# plot_multiple_reps("o_angle.dat", (0,35), "Orientation Angle (°)", replicates=(5,10), 
+#                     window=10, time_units=10**3, linewidth=2, dist=(0,0.2,0.02))
+
+plt.show()

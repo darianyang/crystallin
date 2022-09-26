@@ -10,7 +10,7 @@ SOURCE=/home/dyang/crystallin/1hk0
 for SYS in ${SYSTEMS[@]} ; do
     mkdir -p $FF/$SYS
     cd $FF/$SYS
-    for VER in $(seq -f "%02g" 0 1 4) ; do
+    for VER in $(seq -f "%02g" 0 1 9) ; do
         mkdir v$VER
         rsync -axhvP dyang@ultron.structbio.pitt.edu:$SOURCE/$SYS/v$VER/$OUT_ROOT/*.dat v$VER/$OUT_ROOT/
         #rsync -axhvP dyang@ultron.structbio.pitt.edu:$SOURCE/$SYS/v$VER/$OUT_ROOT/*.pdb v$VER/$OUT_ROOT/
