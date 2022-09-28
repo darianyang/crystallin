@@ -246,11 +246,11 @@ full_df = full_df.T
 full_df["Legend"] = ["wt" for i in range(0, np.shape(wt_df)[1])] + \
                    ["nless" for i in range(0, np.shape(nless_df)[1])]
 #print(full_df)
-g = sns.JointGrid(x=0, y=1, data=full_df, hue="Legend")
+g = sns.JointGrid(x=0, y=1, data=full_df, hue="Legend", palette=["dimgrey", "magenta"])
 g.plot_joint(sns.kdeplot)
 g.plot_marginals(sns.kdeplot, fill=False)
 g.set_axis_labels(xlabel="Backbone RMSD ($\AA$)", ylabel="Orientation Angle (°)")
-sns.move_legend(g, "upper left", bbox_to_anchor=(.55, .45), title="")
+#sns.move_legend(g, "upper left", bbox_to_anchor=(.55, .45), title="")
 #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 
 # RoG
@@ -258,7 +258,7 @@ sns.move_legend(g, "upper left", bbox_to_anchor=(.55, .45), title="")
 
 # Backbone RMSD
 #plot_avg_and_stdev("rmsd_bb.dat", (0,7), "Backbone RMSD ($\AA$)", replicates=(0,5), time_units=10**3)
-# plot_multiple_reps("rmsd_bb.dat", (0,6), "Backbone RMSD ($\AA$)", replicates=(9,10), 
+# plot_multiple_reps("rmsd_bb.dat", (0,6), "Backbone RMSD ($\AA$)", replicates=(5,10), 
 #                     window=10, time_units=10**3, linewidth=2)
 
 # nc and nnc (TODO: index)
@@ -285,3 +285,4 @@ sns.move_legend(g, "upper left", bbox_to_anchor=(.55, .45), title="")
 #                     window=10, time_units=10**3, linewidth=2, dist=(0,0.2,0.02))
 
 plt.show()
+#plt.savefig("figures/joint_10us_wt_nall.png", dpi=300, transparent=True)

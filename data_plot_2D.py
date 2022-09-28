@@ -325,7 +325,7 @@ def single_plot_test():
     #nc.nc_master()
 
     # dihedral plot
-    dh = Per_Res_Plot("data/wt/v02/1us/dihedrals_psi.dat", timescale=10**2, ax=ax, data_interval=10)
+    dh = Per_Res_Plot("data/wt/v02/1us/dihedrals_phi.dat", timescale=10**3, ax=ax, data_interval=1)
     dh.dihedral_master()
     #dh.dihedral_legend("phi")
 
