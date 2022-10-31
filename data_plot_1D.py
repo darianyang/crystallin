@@ -215,7 +215,7 @@ def plot_multiple_reps(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1),
         fig.savefig(f"figures/{savefig}", dpi=300, transparent=False)
     plt.show()
 
-def multi_rep_data(sys="wt", dataname="o_angle.dat", replicates=(0,10)):
+def multi_rep_data(sys="wt", dataname="o_angle.dat", replicates=(0,5)):
     data = [pre_processing(f"data/{sys}/v{i:02d}/1us/{dataname}")[1] 
                for i in range(replicates[0],replicates[1])]
     data = np.reshape(data, -1)
@@ -244,7 +244,7 @@ full_df = pd.concat([wt_df, nless_df], axis=1, ignore_index=True)
 #print(np.shape(wt_df))
 full_df = full_df.T
 full_df["Legend"] = ["wt" for i in range(0, np.shape(wt_df)[1])] + \
-                   ["nless" for i in range(0, np.shape(nless_df)[1])]
+                    ["nless" for i in range(0, np.shape(nless_df)[1])]
 #print(full_df)
 g = sns.JointGrid(x=0, y=1, data=full_df, hue="Legend", palette=["dimgrey", "magenta"])
 g.plot_joint(sns.kdeplot)
