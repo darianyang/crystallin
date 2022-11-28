@@ -246,8 +246,9 @@ full_df = full_df.T
 full_df["Legend"] = ["wt" for i in range(0, np.shape(wt_df)[1])] + \
                     ["nless" for i in range(0, np.shape(nless_df)[1])]
 #print(full_df)
-g = sns.JointGrid(x=0, y=1, data=full_df, hue="Legend", palette=["dimgrey", "magenta"])
-g.plot_joint(sns.kdeplot)
+# space is for magin plot padding
+g = sns.JointGrid(x=0, y=1, data=full_df, hue="Legend", palette=["dimgrey", "magenta"], space=0)
+g.plot_joint(sns.kdeplot, fill=False)
 g.plot_marginals(sns.kdeplot, fill=False)
 g.set_axis_labels(xlabel="Backbone RMSD ($\AA$)", ylabel="Orientation Angle (°)")
 #sns.move_legend(g, "upper left", bbox_to_anchor=(.55, .45), title="")

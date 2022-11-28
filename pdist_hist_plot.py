@@ -134,8 +134,9 @@ def pdist_plot(X, Y, Z, pmax=5, pmin=0, plot_style="heat", ax=None, cmap="afmhot
 
     return plot
 
-dataname = "rmsd_bb.dat"
-x_files = [f"data/wt/v{i:02d}/1us/{dataname}" for i in range(1,3)]
-y_files = [f"data/nalld/v{i:02d}/1us/{dataname}" for i in range(1,3)]
+datanamex = "rmsd_bb.dat"
+datanamey = "o_angle.dat"
+x_files = [f"data/wt/v{i:02d}/1us/{datanamex}" for i in range(0,5)]
+y_files = [f"data/nalld/v{i:02d}/1us/{datanamey}" for i in range(0,5)]
 X, Y, Z = pre_processing(x_files, y_files)
-pdist_plot(X, Y, Z, pmax=None)
+pdist_plot(X, Y, Z, pmax=5, plot_style="contour")
