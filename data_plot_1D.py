@@ -215,7 +215,7 @@ def plot_multiple_reps(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1),
         fig.savefig(f"figures/{savefig}", dpi=300, transparent=False)
     plt.show()
 
-def multi_rep_data(sys="wt", dataname="o_angle.dat", replicates=(0,5)):
+def multi_rep_data(sys="wt", dataname="o_angle.dat", replicates=(0,20)):
     data = [pre_processing(f"data/{sys}/v{i:02d}/1us/{dataname}")[1] 
                for i in range(replicates[0],replicates[1])]
     data = np.reshape(data, -1)
