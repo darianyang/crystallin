@@ -1,0 +1,5 @@
+source leaprc.protein.ff15ipq
+source leaprc.water.spce
+mol = loadpdb 1hk0_n33d_for_leap.pdb
+savepdb mol 1hk0_n33d_leap.pdb
+quit

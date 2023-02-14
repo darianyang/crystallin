@@ -1,0 +1,95 @@
+-I: Adding /home/dty7/Apps/Amber/amber18/dat/leap/prep to search path.
+-I: Adding /home/dty7/Apps/Amber/amber18/dat/leap/lib to search path.
+-I: Adding /home/dty7/Apps/Amber/amber18/dat/leap/parm to search path.
+-I: Adding /home/dty7/Apps/Amber/amber18/dat/leap/cmd to search path.
+-f: Source tleap.in.
+
+Welcome to LEaP!
+(no leaprc in search path)
+Sourcing: ./tleap.in
+----- Source: /home/dty7/Apps/Amber/amber18/dat/leap/cmd/leaprc.protein.ff15ipq
+----- Source of /home/dty7/Apps/Amber/amber18/dat/leap/cmd/leaprc.protein.ff15ipq done
+Log file: ./leap.log
+Loading parameters: /home/dty7/Apps/Amber/amber18/dat/leap/parm/parm15ipq_10.3.dat
+Reading title:
+Parm15 developmental parameter set
+Loading library: /home/dty7/Apps/Amber/amber18/dat/leap/lib/amino15ipq_10.0.lib
+Loading library: /home/dty7/Apps/Amber/amber18/dat/leap/lib/aminoct15ipq_10.0.lib
+Loading library: /home/dty7/Apps/Amber/amber18/dat/leap/lib/aminont15ipq_10.0.lib
+----- Source: /home/dty7/Apps/Amber/amber18/dat/leap/cmd/leaprc.water.spce
+----- Source of /home/dty7/Apps/Amber/amber18/dat/leap/cmd/leaprc.water.spce done
+Loading library: /home/dty7/Apps/Amber/amber18/dat/leap/lib/atomic_ions.lib
+Loading library: /home/dty7/Apps/Amber/amber18/dat/leap/lib/solvents.lib
+Loading parameters: /home/dty7/Apps/Amber/amber18/dat/leap/parm/frcmod.spce
+Reading force field modification type file (frcmod)
+Reading title:
+This is the additional/replacement parameter set for SPC/E water
+Loading parameters: /home/dty7/Apps/Amber/amber18/dat/leap/parm/frcmod.ionsjc_spce
+Reading force field modification type file (frcmod)
+Reading title:
+Monovalent ion parameters for Ewald and SPC/E water from Joung & Cheatham JPCB (2008)
+Loading parameters: /home/dty7/Apps/Amber/amber18/dat/leap/parm/frcmod.ions234lm_126_spce
+Reading force field modification type file (frcmod)
+Reading title:
+Li/Merz ion parameters of divalent to tetravalent ions for SPC/E water model (12-6 normal usage set)
+Loading PDB file: ./1hk0_pH_amb.pdb
+  total atoms in file: 2809
+  Leap added 4 missing atoms according to residue templates:
+       4 H / lone pairs
+Total unperturbed charge:   6.000000
+Total perturbed charge:     6.000000
+6 Cl- ions required to neutralize.
+Adding 6 counter ions to "mol" using 1A grid
+Grid extends from solute vdw + 5.19  to  11.19
+Resolution:      1.00 Angstrom.
+ (no solvent present)
+Calculating grid charges
+Placed Cl- in mol at (-0.17, -17.01, 14.46).
+Placed Cl- in mol at (5.83, 22.99, 24.46).
+Placed Cl- in mol at (34.83, 7.99, 34.46).
+Placed Cl- in mol at (10.83, 9.99, -9.54).
+Placed Cl- in mol at (-8.17, 5.99, 23.46).
+Placed Cl- in mol at (-9.17, -5.01, -10.54).
+
+Done adding ions.
+Scaling up box by a factor of 1.223191 to meet diagonal cut criterion
+  Solute vdw bounding box:              43.784 38.172 68.928
+  Total bounding box for atom centers:  98.285 98.285 98.285
+      (box expansion for 'iso' is  95.6%)
+  Solvent unit box:                     18.774 18.774 18.774
+  Volume: 489347.014 A^3 (oct)
+  Total mass 266564.156 amu,  Density 0.905 g/cc
+  Added 13640 residues.
+Checking Unit.
+Building topology.
+Building atom parameters.
+Building bond parameters.
+Building angle parameters.
+Building proper torsion parameters.
+Building improper torsion parameters.
+ total 663 improper torsions applied
+Building H-Bond parameters.
+Incorporating Non-Bonded adjustments.
+Not Marking per-residue atom chain types.
+Marking per-residue atom chain types.
+  (Residues lacking connect0/connect1 - 
+   these don't have chain types marked:
+
+	res	total affected
+
+	CSER	1
+	NGLY	1
+	WAT	13640
+  )
+ (no restraints)
+Writing pdb file: 1hk0_12A.pdb
+   printing CRYST1 record to PDB file with box info
+
+/home/dty7/Apps/Amber/amber18/bin/teLeap: Warning!
+ Converting N-terminal residue name to PDB format: NGLY -> GLY
+
+/home/dty7/Apps/Amber/amber18/bin/teLeap: Warning!
+ Converting C-terminal residue name to PDB format: CSER -> SER
+	Quit
+
+Exiting LEaP: Errors = 0; Warnings = 2; Notes = 0.

@@ -1,0 +1,102 @@
+-I: Adding /Users/darian/anaconda3/envs/md/dat/leap/prep to search path.
+-I: Adding /Users/darian/anaconda3/envs/md/dat/leap/lib to search path.
+-I: Adding /Users/darian/anaconda3/envs/md/dat/leap/parm to search path.
+-I: Adding /Users/darian/anaconda3/envs/md/dat/leap/cmd to search path.
+-f: Source tleap_m.in.
+
+Welcome to LEaP!
+(no leaprc in search path)
+Sourcing: ./tleap_m.in
+----- Source: /Users/darian/anaconda3/envs/md/dat/leap/cmd/leaprc.mimetic.ff15ipq
+----- Source of /Users/darian/anaconda3/envs/md/dat/leap/cmd/leaprc.mimetic.ff15ipq done
+Log file: ./leap.log
+Loading parameters: /Users/darian/anaconda3/envs/md/dat/leap/parm/parm15ipq_10.3.dat
+Reading title:
+Parm15 developmental parameter set
+Loading parameters: /Users/darian/anaconda3/envs/md/dat/leap/parm/frcmod.ff15ipq-m
+Reading force field modification type file (frcmod)
+Reading title:
+ff15ipq-m extended parameter set for artificial residues
+Loading library: /Users/darian/anaconda3/envs/md/dat/leap/lib/amino15ipq_10.0.lib
+Loading library: /Users/darian/anaconda3/envs/md/dat/leap/lib/aminoct15ipq_10.0.lib
+Loading library: /Users/darian/anaconda3/envs/md/dat/leap/lib/aminont15ipq_10.0.lib
+Loading library: /Users/darian/anaconda3/envs/md/dat/leap/lib/ff15ipq-m.lib
+----- Source: /Users/darian/anaconda3/envs/md/dat/leap/cmd/leaprc.water.spce
+----- Source of /Users/darian/anaconda3/envs/md/dat/leap/cmd/leaprc.water.spce done
+Loading library: /Users/darian/anaconda3/envs/md/dat/leap/lib/atomic_ions.lib
+Loading library: /Users/darian/anaconda3/envs/md/dat/leap/lib/solvents.lib
+Loading parameters: /Users/darian/anaconda3/envs/md/dat/leap/parm/frcmod.spce
+Reading force field modification type file (frcmod)
+Reading title:
+This is the additional/replacement parameter set for SPC/E water
+Loading parameters: /Users/darian/anaconda3/envs/md/dat/leap/parm/frcmod.ionsjc_spce
+Reading force field modification type file (frcmod)
+Reading title:
+Monovalent ion parameters for Ewald and SPC/E water from Joung & Cheatham JPCB (2008)
+Loading parameters: /Users/darian/anaconda3/envs/md/dat/leap/parm/frcmod.ions234lm_126_spce
+Reading force field modification type file (frcmod)
+Reading title:
+Li/Merz ion parameters of divalent to tetravalent ions for SPC/E water model (12-6 normal usage set)
+Loading PDB file: ./1hk0_b3d_leap.pdb
+  total atoms in file: 2814
+Total unperturbed charge:   5.000000
+Total perturbed charge:     5.000000
+
+/Users/darian/anaconda3/envs/md/bin/teLeap: Warning!
+addIons: 1st Ion & target unit have charges of the same sign:
+     unit charge = 5; ion1 charge = 1;
+     can't neutralize.
+5 Cl- ions required to neutralize.
+Adding 5 counter ions to "mol" using 1A grid
+Grid extends from solute vdw + 2.71  to  8.71
+Resolution:      1.00 Angstrom.
+ (no solvent present)
+Calculating grid charges
+Placed Cl- in mol at (-1.87, 26.00, -2.98).
+Placed Cl- in mol at (-8.87, 27.00, 39.02).
+Placed Cl- in mol at (11.13, 14.00, 7.02).
+Placed Cl- in mol at (-17.87, -1.00, 7.02).
+Placed Cl- in mol at (10.13, 8.00, 25.02).
+
+Done adding ions.
+Scaling up box by a factor of 1.320826 to meet diagonal cut criterion
+  Solute vdw bounding box:              36.952 41.287 58.603
+  Total bounding box for atom centers:  90.303 90.303 90.303
+      (box expansion for 'iso' is  62.7%)
+  Solvent unit box:                     18.774 18.774 18.774
+  Volume: 380555.795 A^3 (oct)
+  Total mass 205828.786 amu,  Density 0.898 g/cc
+  Added 10270 residues.
+Checking Unit.
+Building topology.
+Building atom parameters.
+Building bond parameters.
+Building angle parameters.
+Building proper torsion parameters.
+Building improper torsion parameters.
+ total 662 improper torsions applied
+Building H-Bond parameters.
+Incorporating Non-Bonded adjustments.
+Not Marking per-residue atom chain types.
+Marking per-residue atom chain types.
+  (Residues lacking connect0/connect1 - 
+   these don't have chain types marked:
+
+	res	total affected
+
+	CSER	1
+	NGLY	1
+	WAT	10270
+  )
+ (no restraints)
+Writing pdb file: 1hk0_b3d_solv.pdb
+   printing CRYST1 record to PDB file with box info
+
+/Users/darian/anaconda3/envs/md/bin/teLeap: Warning!
+ Converting N-terminal residue name to PDB format: NGLY -> GLY
+
+/Users/darian/anaconda3/envs/md/bin/teLeap: Warning!
+ Converting C-terminal residue name to PDB format: CSER -> SER
+	Quit
+
+Exiting LEaP: Errors = 0; Warnings = 3; Notes = 0.

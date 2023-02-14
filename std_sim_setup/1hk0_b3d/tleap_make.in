@@ -1,0 +1,3 @@
+source leaprc.mimetic.ff15ipq
+mol = sequence { B3D }
+savePdb mol B3D.pdb

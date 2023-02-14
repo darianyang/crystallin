@@ -1,0 +1,4 @@
+source leaprc.protein.ff15ipq
+mol = loadpdb 1hk0_nalld_for_leap.pdb
+savepdb mol 1hk0_nalld_leap.pdb
+quit
