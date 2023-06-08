@@ -1,0 +1,5 @@
+source leaprc.mimetic.ff15ipq                              
+source leaprc.water.spce                                   
+mol = loadpdb all_d_b3d.pdb                            
+savepdb mol all_d_b3d_leap.pdb                              
+quit                                                       

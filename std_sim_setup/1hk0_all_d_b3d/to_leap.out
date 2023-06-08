@@ -1,0 +1,51 @@
+-I: Adding /Users/darian/anaconda3/envs/md/dat/leap/prep to search path.
+-I: Adding /Users/darian/anaconda3/envs/md/dat/leap/lib to search path.
+-I: Adding /Users/darian/anaconda3/envs/md/dat/leap/parm to search path.
+-I: Adding /Users/darian/anaconda3/envs/md/dat/leap/cmd to search path.
+-f: Source to_leap.in.
+
+Welcome to LEaP!
+(no leaprc in search path)
+Sourcing: ./to_leap.in
+----- Source: /Users/darian/anaconda3/envs/md/dat/leap/cmd/leaprc.mimetic.ff15ipq
+----- Source of /Users/darian/anaconda3/envs/md/dat/leap/cmd/leaprc.mimetic.ff15ipq done
+Log file: ./leap.log
+Loading parameters: /Users/darian/anaconda3/envs/md/dat/leap/parm/parm15ipq_10.3.dat
+Reading title:
+Parm15 developmental parameter set
+Loading parameters: /Users/darian/anaconda3/envs/md/dat/leap/parm/frcmod.ff15ipq-m
+Reading force field modification type file (frcmod)
+Reading title:
+ff15ipq-m extended parameter set for artificial residues
+Loading library: /Users/darian/anaconda3/envs/md/dat/leap/lib/amino15ipq_10.0.lib
+Loading library: /Users/darian/anaconda3/envs/md/dat/leap/lib/aminoct15ipq_10.0.lib
+Loading library: /Users/darian/anaconda3/envs/md/dat/leap/lib/aminont15ipq_10.0.lib
+Loading library: /Users/darian/anaconda3/envs/md/dat/leap/lib/ff15ipq-m.lib
+----- Source: /Users/darian/anaconda3/envs/md/dat/leap/cmd/leaprc.water.spce
+----- Source of /Users/darian/anaconda3/envs/md/dat/leap/cmd/leaprc.water.spce done
+Loading library: /Users/darian/anaconda3/envs/md/dat/leap/lib/atomic_ions.lib
+Loading library: /Users/darian/anaconda3/envs/md/dat/leap/lib/solvents.lib
+Loading parameters: /Users/darian/anaconda3/envs/md/dat/leap/parm/frcmod.spce
+Reading force field modification type file (frcmod)
+Reading title:
+This is the additional/replacement parameter set for SPC/E water
+Loading parameters: /Users/darian/anaconda3/envs/md/dat/leap/parm/frcmod.ionsjc_spce
+Reading force field modification type file (frcmod)
+Reading title:
+Monovalent ion parameters for Ewald and SPC/E water from Joung & Cheatham JPCB (2008)
+Loading parameters: /Users/darian/anaconda3/envs/md/dat/leap/parm/frcmod.ions234lm_126_spce
+Reading force field modification type file (frcmod)
+Reading title:
+Li/Merz ion parameters of divalent to tetravalent ions for SPC/E water model (12-6 normal usage set)
+Loading PDB file: ./all_d_b3d.pdb
+  total atoms in file: 2820
+Writing pdb file: all_d_b3d_leap.pdb
+
+/Users/darian/anaconda3/envs/md/bin/teLeap: Warning!
+ Converting N-terminal residue name to PDB format: NGLY -> GLY
+
+/Users/darian/anaconda3/envs/md/bin/teLeap: Warning!
+ Converting C-terminal residue name to PDB format: CSER -> SER
+	Quit
+
+Exiting LEaP: Errors = 0; Warnings = 2; Notes = 0.
