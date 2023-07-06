@@ -214,7 +214,7 @@ def plot_multiple_reps(dataname, ylim, ylabel, time_units=10**4, dist=(0,5,1),
         fig.savefig(f"figures/{savefig}", dpi=300, transparent=False)
     plt.show()
 
-def multi_rep_data(sys="nalld", dataname="o_angle.dat", replicates=(0,24)):
+def multi_rep_data(sys="nalld", dataname="o_angle.dat", replicates=(0,5)):
     data = [pre_processing(f"data/{sys}/v{i:02d}/1us/{dataname}")[1] 
                for i in range(replicates[0],replicates[1])]
     data = np.reshape(data, -1)
@@ -234,9 +234,10 @@ def joint_plot():
     # joint plot
     import seaborn as sns
     import pandas as pd
+    og_gdc = "wt"
     alt_gdc = "allb3d"
-    wt1 = multi_rep_data("wt", "rmsd_bb.dat")
-    wt2 = multi_rep_data("wt", "o_angle.dat")
+    wt1 = multi_rep_data(og_gdc, "rmsd_bb.dat")
+    wt2 = multi_rep_data(og_gdc, "o_angle.dat")
     nless1 = multi_rep_data(alt_gdc, "rmsd_bb.dat")
     nless2 = multi_rep_data(alt_gdc, "o_angle.dat")
     wt_df = pd.DataFrame(np.vstack((wt1, wt2)))
@@ -288,5 +289,5 @@ joint_plot()
 # plot_multiple_reps("o_angle.dat", (0,35), "Orientation Angle (°)", replicates=(0,5), 
 #                     window=10, time_units=10**3, linewidth=2, dist=(0,0.2,0.02))
 
-#plt.show()
-plt.savefig("figures/joint_25us_wt_allb3d.png", dpi=300, transparent=True)
+plt.show()
+#plt.savefig("figures/joint_25us_wt_allb3d.png", dpi=300, transparent=True)
