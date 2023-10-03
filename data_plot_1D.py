@@ -235,7 +235,7 @@ def joint_plot():
     import seaborn as sns
     import pandas as pd
     og_gdc = "wt"
-    alt_gdc = "allb3d"
+    alt_gdc = "allDb3d"
     wt1 = multi_rep_data(og_gdc, "rmsd_bb.dat")
     wt2 = multi_rep_data(og_gdc, "o_angle.dat")
     nless1 = multi_rep_data(alt_gdc, "rmsd_bb.dat")
@@ -247,7 +247,7 @@ def joint_plot():
     full_df = full_df.T
     # set legend col for labeling
     full_df["Legend"] = ["WT" for i in range(0, np.shape(wt_df)[1])] + \
-                        ["All iso-ASP" for i in range(0, np.shape(nless_df)[1])]
+                        ["All D-iso-ASP" for i in range(0, np.shape(nless_df)[1])]
     #print(full_df)
     # space is for magin plot padding
     g = sns.JointGrid(x=0, y=1, data=full_df, hue="Legend", palette=["dimgrey", "magenta"], space=0)
