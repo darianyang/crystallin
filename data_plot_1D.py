@@ -15,20 +15,20 @@ import scipy.stats
 import pandas as pd
 
 # plt.rcParams['figure.figsize']= (10,6)
-# plt.rcParams.update({'font.size': 18})
-# plt.rcParams["font.family"]="Sans-serif"
-# plt.rcParams['font.sans-serif'] = 'Arial'
-# plt.rcParams['mathtext.default'] = 'regular'
-# plt.rcParams['axes.linewidth'] = 3.15
-# plt.rcParams['xtick.major.size'] = 9.5
-# plt.rcParams['xtick.major.width'] = 3
-# plt.rcParams['xtick.minor.size'] = 6
-# plt.rcParams['xtick.minor.width'] = 3
-# plt.rcParams['ytick.major.size'] = 6
-# plt.rcParams['ytick.major.width'] = 2.5
-# plt.rcParams['axes.labelsize'] = 20
+plt.rcParams.update({'font.size': 18})
+plt.rcParams["font.family"]="Sans-serif"
+plt.rcParams['font.sans-serif'] = 'Arial'
+plt.rcParams['mathtext.default'] = 'regular'
+plt.rcParams['axes.linewidth'] = 2
+plt.rcParams['xtick.major.size'] = 6
+plt.rcParams['xtick.major.width'] = 2
+plt.rcParams['xtick.minor.size'] = 6
+plt.rcParams['xtick.minor.width'] = 2
+plt.rcParams['ytick.major.size'] = 6
+plt.rcParams['ytick.major.width'] = 2
+plt.rcParams['axes.labelsize'] = 18
 
-plt.style.use("~/github/wedap/wedap/styles/default.mplstyle")
+#plt.style.use("~/github/wedap/wedap/styles/default.mplstyle")
 
 def pre_processing(file=None, data=None, time_units=10**6, index=1):
     """
@@ -236,10 +236,12 @@ def joint_plot():
     import pandas as pd
     og_gdc = "wt"
     alt_gdc = "nalld"
-    wt1 = multi_rep_data(og_gdc, "rmsd_bb.dat")
-    wt2 = multi_rep_data(og_gdc, "o_angle.dat")
-    nless1 = multi_rep_data(alt_gdc, "rmsd_bb.dat")
-    nless2 = multi_rep_data(alt_gdc, "o_angle.dat")
+    replicates = (0,25)
+    replicates = (0,1)
+    wt1 = multi_rep_data(og_gdc, "rmsd_bb.dat", replicates=replicates)
+    wt2 = multi_rep_data(og_gdc, "o_angle.dat", replicates=replicates)
+    nless1 = multi_rep_data(alt_gdc, "rmsd_bb.dat", replicates=replicates)
+    nless2 = multi_rep_data(alt_gdc, "o_angle.dat", replicates=replicates)
     wt_df = pd.DataFrame(np.vstack((wt1, wt2)))
     nless_df = pd.DataFrame(np.vstack((nless1, nless2)))
     full_df = pd.concat([wt_df, nless_df], axis=1, ignore_index=True)
@@ -253,9 +255,13 @@ def joint_plot():
     g = sns.JointGrid(x=0, y=1, data=full_df, hue="Legend", palette=["dimgrey", "magenta"], space=0)
     g.plot_joint(sns.kdeplot, fill=False)
     g.plot_marginals(sns.kdeplot, fill=False)
-    g.set_axis_labels(xlabel="Backbone RMSD ($\AA$)", ylabel="Orientation Angle (°)")
+    #g.set_axis_labels(xlabel="Backbone RMSD ($\AA$)", ylabel="Orientation Angle (°)")
+    g.ax_joint.set_xlabel("Backbone RMSD ($\AA$)", labelpad=9.5)
+    g.ax_joint.set_ylabel("Orientation Angle (°)", labelpad=14)
     #sns.move_legend(g, "upper left", bbox_to_anchor=(.55, .45), title="")
     #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+    # move the legend in ax_joint
+    sns.move_legend(g.ax_joint, "upper right", title='', frameon=False)
 joint_plot()
 
 # RoG
@@ -289,6 +295,6 @@ joint_plot()
 # plot_multiple_reps("o_angle.dat", (0,35), "Orientation Angle (°)", replicates=(0,5), 
 #                     window=10, time_units=10**3, linewidth=2, dist=(0,0.2,0.02))
 
-#plt.show()
+plt.show()
 #plt.savefig("figures/joint_25us_wt_allLb3d.png", dpi=300, transparent=True)
-plt.savefig("figures/joint_25us_wt_Nless.png", dpi=300, transparent=True)
+#plt.savefig("figures/joint_25us_wt_Nless.png", dpi=300, transparent=True)
