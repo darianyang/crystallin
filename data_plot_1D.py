@@ -251,8 +251,8 @@ def joint_plot(og_gdc="wt", alt_gdc="nalld", alt_gdc_label="N-Less"):
     #print(full_df)
     # space is for magin plot padding
     g = sns.JointGrid(x=0, y=1, data=full_df, hue="Legend", palette=["dimgrey", "magenta"], space=0)
-    g.plot_joint(sns.kdeplot, fill=False)
-    g.plot_marginals(sns.kdeplot, fill=False)
+    g.plot_joint(sns.kdeplot, fill=False, common_norm=False, levels=8)
+    g.plot_marginals(sns.kdeplot, fill=False, common_norm=False)
     #g.set_axis_labels(xlabel="Backbone RMSD ($\AA$)", ylabel="Orientation Angle (°)")
     g.ax_joint.set_xlabel("Backbone RMSD ($\AA$)", labelpad=9)
     g.ax_joint.set_ylabel("Orientation Angle (°)", labelpad=14)
@@ -294,9 +294,10 @@ def joint_plot(og_gdc="wt", alt_gdc="nalld", alt_gdc_label="N-Less"):
 
 joint_plot()
 plt.savefig("figures/joint_25us_wt_Nless.png", dpi=300, transparent=True)
+#plt.show()
 joint_plot(alt_gdc="allb3d", alt_gdc_label="L-iso-ASP")
 plt.savefig("figures/joint_25us_wt_allLb3d.png", dpi=300, transparent=True)
+#plt.show()
 joint_plot(alt_gdc="allDb3d", alt_gdc_label="D-iso-ASP")
 plt.savefig("figures/joint_25us_wt_allDb3d.png", dpi=300, transparent=True)
-
 #plt.show()
