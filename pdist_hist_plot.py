@@ -61,7 +61,7 @@ def pre_processing(x_files, y_files, x_loc=1, y_loc=1):
 
     return midpoints_x, midpoints_y, hist
 
-def pdist_plot(X, Y, Z, pmax=5, pmin=0, plot_style="heat", ax=None, cmap="afmhot", savefig=None, **plot_options):
+def pdist_plot(X, Y, Z, pmax=5, pmin=0, plot_style="heat", ax=None, cmap="viridis", savefig=None, **plot_options):
     """
     Parameters
     ----------
@@ -136,7 +136,8 @@ def pdist_plot(X, Y, Z, pmax=5, pmin=0, plot_style="heat", ax=None, cmap="afmhot
 
 datanamex = "rmsd_bb.dat"
 datanamey = "o_angle.dat"
-x_files = [f"data/wt/v{i:02d}/1us/{datanamex}" for i in range(0,5)]
-y_files = [f"data/nalld/v{i:02d}/1us/{datanamey}" for i in range(0,5)]
+system = "wt"
+x_files = [f"data/{system}/v{i:02d}/1us/{datanamex}" for i in range(0,25)]
+y_files = [f"data/{system}/v{i:02d}/1us/{datanamey}" for i in range(0,25)]
 X, Y, Z = pre_processing(x_files, y_files)
-pdist_plot(X, Y, Z, pmax=5, plot_style="contour")
+pdist_plot(X, Y, Z, pmax=5, plot_style="heat")
