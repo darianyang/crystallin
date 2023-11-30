@@ -37,11 +37,14 @@ def plot_1_v_1000():
     ax[1].set_title("N-Less: 1000ns")
 
 def plot_diff():
+    # filter based on < 20 distances?
+    # dmat1[dmat1 > 20] = 0
+    # dmat1000[dmat1000 > 20] = 0
     dmat_diff = dmat1 - dmat1000
     fig, ax = plt.subplots(figsize=(5,4))
 
-    #pdiff = ax.pcolormesh(dmat_diff, cmap="bwr", vmin=-8, vmax=8)
-    pdiff = ax.pcolormesh(dmat_diff, cmap="seismic_r", vmin=-8, vmax=8)
+    pdiff = ax.pcolormesh(dmat_diff, cmap="bwr", vmin=-8, vmax=8)
+    #pdiff = ax.pcolormesh(dmat_diff, cmap="seismic", vmin=-8, vmax=8)
     cbar = fig.colorbar(pdiff)
     cbar.set_label("∆ Distance ($\AA$)", labelpad=15)
 
@@ -56,11 +59,11 @@ def plot_diff():
 
     ax.set_title("N-Less: 100ns - 1000ns")
 
-plot_1_v_1000()
-plt.tight_layout()
-plt.savefig("figures/nless_compare100v1000_asp_dmat20.pdf")
+#plot_1_v_1000()
+#plt.tight_layout()
+#plt.savefig("figures/nless_compare100v1000_asp_dmat20.pdf")
 
-# plot_diff()
-# plt.savefig("figures/nless_100v1000diff_asp_dmat.pdf")
+plot_diff()
+plt.savefig("figures/nless_100v1000diff_asp_dmat.pdf")
 
 plt.show()
