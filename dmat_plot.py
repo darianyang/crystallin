@@ -17,8 +17,8 @@ def plot_1_v_1000():
     p1000 = ax[1].pcolormesh(dmat1000, vmin=0, vmax=20)
     cbar = fig.colorbar(p1, cax=ax[2])
     cbar.set_label("Distance ($\AA$)", labelpad=15)
-    fig.supxlabel("ASP Residue Number", x=0.48, y=0.04)
-    fig.supylabel("ASP Residue Number", x=0.01, y=0.55)
+    fig.supxlabel("Asp Residue Number", x=0.48, y=0.04, fontsize=11)
+    fig.supylabel("Asp Residue Number", x=0.01, y=0.55, fontsize=11)
     
     # xtick formatting
     ax[0].set_xticklabels(asps)
@@ -51,19 +51,19 @@ def plot_diff():
     # xtick formatting
     ax.set_xticklabels(asps)
     ax.set_xticks([0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5])
-    ax.set_xlabel("ASP Residue Number")
+    ax.set_xlabel("Asp Residue Number")
     # ytick formattting
     ax.set_yticklabels(asps)
     ax.set_yticks([0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5])
-    ax.set_ylabel("ASP Residue Number")
+    ax.set_ylabel("Asp Residue Number")
 
     ax.set_title("N-Less: 100ns - 1000ns")
 
-#plot_1_v_1000()
-#plt.tight_layout()
-#plt.savefig("figures/nless_compare100v1000_asp_dmat20.pdf")
+plot_1_v_1000()
+plt.tight_layout()
+plt.savefig("figures/nless_compare100v1000_asp_dmat20_2.pdf")
 
 plot_diff()
-plt.savefig("figures/nless_100v1000diff_asp_dmat.pdf")
+plt.savefig("figures/nless_100v1000diff_asp_dmat_2.pdf")
 
 plt.show()

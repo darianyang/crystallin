@@ -21,8 +21,8 @@ def plot_1_v_1000():
     cbar.set_label("Distance ($\AA$)", labelpad=15)
 
     # labels
-    fig.supxlabel("ASP & GLU Residue Number", x=0.48, y=0.03)
-    fig.supylabel("ASN to ASP Residue Number", x=0.01, y=0.52)
+    fig.supxlabel("Asp & Glu Residue Number", x=0.48, y=0.03)
+    fig.supylabel("Asn to Asp Residue Number", x=0.01, y=0.52)
     
     # filter based on < 20 distances?
     #dmat1[dmat1 > 20] = 0
@@ -88,5 +88,5 @@ plt.tight_layout()
 #plot_diff()
 # plt.savefig("figures/nless_100v1000diff_neg_dmat.pdf")
 
-plt.savefig("figures/nless_negVnewasp_dmat.pdf")
+plt.savefig("figures/nless_negVnewasp_dmat2.pdf")
 #plt.show()
