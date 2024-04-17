@@ -234,7 +234,7 @@ def joint_plot(og_gdc="wt", alt_gdc="nalld", alt_gdc_label="N-Less"):
     # joint plot
     import seaborn as sns
     import pandas as pd
-    replicates = (0,25)
+    replicates = (0,4)
     #replicates = (0,1)
     wt1 = multi_rep_data(og_gdc, "rmsd_bb.dat", replicates=replicates)
     wt2 = multi_rep_data(og_gdc, "o_angle.dat", replicates=replicates)
@@ -292,12 +292,18 @@ def joint_plot(og_gdc="wt", alt_gdc="nalld", alt_gdc_label="N-Less"):
 # plot_multiple_reps("o_angle.dat", (0,35), "Orientation Angle (°)", replicates=(0,5), 
 #                     window=10, time_units=10**3, linewidth=2, dist=(0,0.2,0.02))
 
-joint_plot()
-#plt.savefig("figures/joint_25us_wt_Nless.png", dpi=300, transparent=True)
+joint_plot(alt_gdc="nallDd", alt_gdc_label="D-Asp")
+#plt.savefig("figures/joint_5us_wt_d-Nless.png", dpi=300, transparent=True)
 plt.show()
+
+#joint_plot()
+#plt.savefig("figures/joint_25us_wt_Nless.png", dpi=300, transparent=True)
+#plt.show()
+
 #joint_plot(alt_gdc="allb3d", alt_gdc_label="L-iso-Asp")
 #plt.savefig("figures/joint_25us_wt_allLb3d.png", dpi=300, transparent=True)
 #plt.show()
+
 #joint_plot(alt_gdc="allDb3d", alt_gdc_label="D-iso-Asp")
 #plt.savefig("figures/joint_25us_wt_allDb3d.png", dpi=300, transparent=True)
 #plt.show()
