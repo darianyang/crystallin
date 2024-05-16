@@ -14,8 +14,8 @@ SOURCE=/home/dyang/crystallin/1hk0
 for SYS in ${SYSTEMS[@]} ; do
     mkdir -p $FF/$SYS
     cd $FF/$SYS
-    for VER in $(seq -f "%02g" 0 1 4) ; do
-    #for VER in $(seq -f "%02g" 0 1 24) ; do
+    #for VER in $(seq -f "%02g" 0 1 4) ; do
+    for VER in $(seq -f "%02g" 0 1 24) ; do
     #for VER in $(seq -f "%02g" 0 1 9) ; do
     #for VER in $(seq -f "%02g" 10 1 14) ; do
     #for VER in $(seq -f "%02g" 15 1 19) ; do
