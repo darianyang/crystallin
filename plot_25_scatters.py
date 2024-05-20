@@ -8,6 +8,7 @@ plt.style.use("gdc.mplstyle")
 fig, axes = plt.subplots(nrows=5, ncols=5, sharex=True, sharey=True, figsize=(8,8))
 
 system = "wt"
+system = "nallDd"
 
 plot_options = {"plot_mode" : "scatter3d",
                 "data_type" : "pdist",
@@ -30,8 +31,10 @@ for v, ax in enumerate(tqdm(axes.reshape(-1))):
     ax.set_yticks([0, 15, 30])
     ax.set_yticklabels([0, 15, 30])
 
-fig.suptitle("WT $\gamma$-D-Crystallin", x=0.54, y=0.96)
+#fig.suptitle("WT $\gamma$-D-Crystallin", x=0.54, y=0.96)
 #fig.suptitle("N-Less $\gamma$-D-Crystallin", x=0.54, y=0.96)
+#fig.suptitle("L-Asp $\gamma$-D-Crystallin", x=0.54, y=0.96)
+fig.suptitle("D-Asp $\gamma$-D-Crystallin", x=0.54, y=0.96)
 #fig.suptitle("L-iso-Asp $\gamma$-D-Crystallin", x=0.54, y=0.96)
 #fig.suptitle("D-iso-Asp $\gamma$-D-Crystallin", x=0.54, y=0.96)
 fig.supxlabel("Backbone RMSD (Å)", x=0.56, y=0.035)

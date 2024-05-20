@@ -230,7 +230,35 @@ def multi_rep_data(sys="nalld", dataname="o_angle.dat", replicates=(0,25)):
 # dist_plot(wt, xlim, ax=ax)
 # dist_plot(nless, xlim, ax=ax)
 
-def joint_plot(og_gdc="wt", alt_gdc="nalld", alt_gdc_label="N-Less"):
+def joint_plot1(gdc="wt"):
+    # joint plot
+    import seaborn as sns
+    import pandas as pd
+    replicates = (0,25)
+    #replicates = (0,5)
+    #replicates = (0,1)
+    wt1 = multi_rep_data(gdc, "rmsd_bb.dat", replicates=replicates)
+    wt2 = multi_rep_data(gdc, "o_angle.dat", replicates=replicates)
+    wt_df = pd.DataFrame(np.vstack((wt1, wt2)))
+    full_df = pd.concat([wt_df], axis=1, ignore_index=True)
+    #print(np.shape(wt_df))
+    full_df = full_df.T
+    # set legend col for labeling
+    full_df["Legend"] = ["WT" for i in range(0, np.shape(wt_df)[1])]
+    #print(full_df)
+    # space is for magin plot padding
+    g = sns.JointGrid(x=0, y=1, data=full_df, hue="Legend", palette=["dimgrey"], space=0)
+    g.plot_joint(sns.kdeplot, fill=False, common_norm=False, levels=8)
+    g.plot_marginals(sns.kdeplot, fill=False, common_norm=False)
+    #g.set_axis_labels(xlabel="Backbone RMSD ($\AA$)", ylabel="Orientation Angle (°)")
+    g.ax_joint.set_xlabel("Backbone RMSD ($\AA$)", labelpad=9)
+    g.ax_joint.set_ylabel("Orientation Angle (°)", labelpad=14)
+    #sns.move_legend(g, "upper left", bbox_to_anchor=(.55, .45), title="")
+    #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+    # move the legend in ax_joint
+    sns.move_legend(g.ax_joint, "upper right", title='', frameon=False)
+
+def joint_plot(og_gdc="wt", alt_gdc="nalld", alt_gdc_label="L-Asp"):
     # joint plot
     import seaborn as sns
     import pandas as pd
@@ -293,14 +321,18 @@ def joint_plot(og_gdc="wt", alt_gdc="nalld", alt_gdc_label="N-Less"):
 # plot_multiple_reps("o_angle.dat", (0,35), "Orientation Angle (°)", replicates=(0,5), 
 #                     window=10, time_units=10**3, linewidth=2, dist=(0,0.2,0.02))
 
-#joint_plot(og_gdc="nallD", alt_gdc="nallDd", alt_gdc_label="D-Asp")
-joint_plot(alt_gdc="nallDd", alt_gdc_label="D-Asp")
-#plt.savefig("figures/joint_5us_wt_d-Nless.png", dpi=300, transparent=True)
-plt.savefig("figures/joint_25us_wt_d-Nless.png", dpi=300, transparent=True)
+joint_plot1()
+plt.savefig("figures/joint_25us_wt_only.png", dpi=300, transparent=True)
 plt.show()
 
+#joint_plot(og_gdc="nallD", alt_gdc="nallDd", alt_gdc_label="D-Asp")
+#joint_plot(alt_gdc="nallDd", alt_gdc_label="D-Asp")
+#plt.savefig("figures/joint_5us_wt_d-Nless.png", dpi=300, transparent=True)
+#plt.savefig("figures/joint_25us_wt_d-Nless.png", dpi=300, transparent=True)
+#plt.show()
+
 #joint_plot()
-#plt.savefig("figures/joint_25us_wt_Nless.png", dpi=300, transparent=True)
+#plt.savefig("figures/joint_25us_wt_l-Nless.png", dpi=300, transparent=True)
 #plt.show()
 
 #joint_plot(alt_gdc="allb3d", alt_gdc_label="L-iso-Asp")
