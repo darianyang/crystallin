@@ -1,4 +1,4 @@
-# MD Simulation Files: Deamidation effects on gammaD-Crystallin
+# MD Simulation Files: Deamidation effects on γD-Crystallin
 
 Citation:
 ```
